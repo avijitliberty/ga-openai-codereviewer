@@ -1,0 +1,16 @@
+{
+  "name": "ga-openai-codereviewer",
+  "version": "1.0.0",
+  "description": "Open AI powered code reviews via GitHub Actions",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
