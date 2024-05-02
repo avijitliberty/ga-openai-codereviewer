@@ -1,6 +1,28 @@
 name: "Open-AI Code Review Action"
 description: "Perform code reviews and comment on diffs using OpenAI API."
-
+inputs:
+  GITHUB_TOKEN:
+    description: "GitHub token to interact with the repository."
+    required: true
+  OPENAI_API_KEY:
+    description: "OpenAI API key for GPT."
+    required: true
+  OPENAI_API_MODEL:
+    description: "OpenAI API model."
+    required: false
+    default: "gpt-4"
+  max_tokens:
+    description: "Maximum number of tokens that can be generated per analysis."
+    required: false
+    default: "700"
+  exclude:
+    description: "Glob patterns to exclude files from the diff analysis"
+    required: false
+    default: ""
+  custom_prompts:
+    description: "Custom commands to augment the agent's prompts with. Each line is an individual command."
+    required: false
+    default: ""
 runs:
   using: "node20"
   main: "dist/index.js"

@@ -4,13 +4,21 @@
   "description": "Open AI powered code reviews via GitHub Actions",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && ncc build lib/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@vercel/ncc": "^0.38.1",
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@octokit/rest": "^20.1.0",
+    "minimatch": "^7.4.2",
+    "openai": "^4.40.0",
+    "parse-diff": "^0.11.1"
   }
 }

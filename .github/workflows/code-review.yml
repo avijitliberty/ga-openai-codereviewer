@@ -1,12 +1,27 @@
 name: Code Review with OpenAI
 
 on:
-  workflow_dispatch:
-
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - ready_for_review
+permissions: write-all
 jobs:
-  run-my-action:
-    name: Checks if this action works
+  code_review:
+    if: '! github.event.pull_request.draft'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Code Review
+        uses: ./
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_API_MODEL: "gpt-3.5-turbo"
+          exclude: "yarn.lock, dist/**, **/*.json, **/*.md, **/*.yaml, **/*.xml"
+          custom_prompts: |
+            Do not worry about the verbosity of variable names, as long as they are somewhat descriptive.
+            Be sure to call out concurrency issues and potential race conditions.
+            Do not worry about things a static analyzer would catch in real-time during development.
