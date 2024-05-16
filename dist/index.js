@@ -42,6 +42,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.main = exports.createReviewComment = exports.createComment = exports.getAIResponse = exports.createPrompt = exports.analyzeCode = exports.getDiff = exports.getPRDetails = void 0;
 const fs_1 = __nccwpck_require__(7147);
 const core = __importStar(__nccwpck_require__(2186));
 const openai_1 = __importDefault(__nccwpck_require__(47));
@@ -74,6 +75,7 @@ function getPRDetails() {
         };
     });
 }
+exports.getPRDetails = getPRDetails;
 function getDiff(owner, repo, pull_number) {
     return __awaiter(this, void 0, void 0, function* () {
         const response = yield octokit.pulls.get({
@@ -86,6 +88,7 @@ function getDiff(owner, repo, pull_number) {
         return response.data;
     });
 }
+exports.getDiff = getDiff;
 function analyzeCode(parsedDiff, prDetails, customPrompts) {
     return __awaiter(this, void 0, void 0, function* () {
         const comments = [];
@@ -109,6 +112,7 @@ function analyzeCode(parsedDiff, prDetails, customPrompts) {
         return comments;
     });
 }
+exports.analyzeCode = analyzeCode;
 function createPrompt(file, chunk, prDetails, customPrompts) {
     return `Your task is to review pull requests. Instructions:
 - Provide the response in following JSON format:  {"reviews": [{"lineNumber":  <line_number>, "reviewComment": "<review comment>"}]}
@@ -139,6 +143,7 @@ ${chunk.changes
 \`\`\`
 `;
 }
+exports.createPrompt = createPrompt;
 function getAIResponse(prompt) {
     return __awaiter(this, void 0, void 0, function* () {
         var _a, _b;
@@ -168,6 +173,7 @@ function getAIResponse(prompt) {
         }
     });
 }
+exports.getAIResponse = getAIResponse;
 function createComment(file, chunk, aiResponses) {
     return aiResponses.flatMap((aiResponse) => {
         if (!file.to) {
@@ -180,6 +186,7 @@ function createComment(file, chunk, aiResponses) {
         };
     });
 }
+exports.createComment = createComment;
 function createReviewComment(owner, repo, pull_number, comments) {
     return __awaiter(this, void 0, void 0, function* () {
         yield octokit.pulls.createReview({
@@ -191,6 +198,7 @@ function createReviewComment(owner, repo, pull_number, comments) {
         });
     });
 }
+exports.createReviewComment = createReviewComment;
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         var _a;
@@ -239,6 +247,7 @@ function main() {
         }
     });
 }
+exports.main = main;
 main().catch((error) => {
     console.error("Error:", error);
     process.exit(1);
